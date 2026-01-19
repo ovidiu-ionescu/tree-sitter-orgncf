@@ -1,5 +1,7 @@
 # tree-sitter-orgncf
 
+Moved to [bind9-lan](https://github.com/ovidiu-ionescu/bind9-lan)
+
 A Tree-sitter grammar for the Org NCf (Network Configuration Format) language.
 
 If you want to assign fixed ip addesses to devices in your network and give them
