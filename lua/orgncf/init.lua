@@ -1,24 +1,22 @@
 local M = {}
 
 function M.setup()
+  -- 1. Get the parsers table safely
+  local ok, parsers = pcall(require, "nvim-treesitter.parsers")
+  if not ok then return end
 
-  -- To be safest across different nvim-treesitter versions:
-  local parsers = require("nvim-treesitter.parsers")
-  local configs = parsers.get_parser_configs and parsers.get_parser_configs() or parsers
+  -- 2. Register the grammar configuration
+  local configs = parsers.get_parser_configs()
+  configs.orgncf = {
+    install_info = {
+      -- This finds the local directory where Lazy downloaded your repo
+      url = vim.fn.fnamemodify(debug.getinfo(1).source:sub(2), ":h:h:h"),
+      files = { "src/parser.c" },
+    },
+    filetype = "orgncf",
+  }
 
-  if not configs.orgncf then
-    configs.orgncf = {
-      install_info = {
-        -- This gets the path where Lazy installed your repo
-        url = vim.fn.fnamemodify(debug.getinfo(1).source:sub(2), ":h:h:h"),
-        files = { "src/parser.c" }, 
-        generate_requires_npm = false,
-        requires_generate_from_grammar = false,
-      },
-      filetype = "orgncf",
-    }
-  end
-
+  -- 3. Map the .orgncf extension to the filetype
   vim.filetype.add({
     extension = {
       orgncf = "orgncf",
