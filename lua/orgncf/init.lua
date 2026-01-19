@@ -1,15 +1,21 @@
 local M = {}
 
 function M.setup()
-  local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
-  
-  -- Only register if not already present
-  if not parser_config.orgncf then
-    parser_config.orgncf = {
+  -- Access the table directly instead of calling it as a function
+  local parser_config = require("nvim-treesitter.parsers").get_parser_configs() 
+  -- Note: In the very latest versions, it's often just:
+  -- local parser_config = require("nvim-treesitter.parsers")
+
+  -- To be safest across different nvim-treesitter versions:
+  local parsers = require("nvim-treesitter.parsers")
+  local configs = parsers.get_parser_configs and parsers.get_parser_configs() or parsers
+
+  if not configs.orgncf then
+    configs.orgncf = {
       install_info = {
-        -- Points to the local folder where lazy.nvim installed the plugin
+        -- This gets the path where Lazy installed your repo
         url = vim.fn.fnamemodify(debug.getinfo(1).source:sub(2), ":h:h:h"),
-        files = { "src/parser.c" }, -- add "src/scanner.c" if applicable
+        files = { "src/parser.c" }, 
         generate_requires_npm = false,
         requires_generate_from_grammar = false,
       },
@@ -17,10 +23,9 @@ function M.setup()
     }
   end
 
-  -- Register file extension
   vim.filetype.add({
     extension = {
-      orgncf = "ncf",
+      orgncf = "orgncf",
     },
   })
 end
