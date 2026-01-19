@@ -20,7 +20,7 @@ function M.setup()
   -- Register file extension
   vim.filetype.add({
     extension = {
-      orgncf = "orgncf",
+      orgncf = "ncf",
     },
   })
 end
