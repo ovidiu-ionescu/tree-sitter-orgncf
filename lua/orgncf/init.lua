@@ -1,10 +1,6 @@
 local M = {}
 
 function M.setup()
-  -- Access the table directly instead of calling it as a function
-  local parser_config = require("nvim-treesitter.parsers").get_parser_configs() 
-  -- Note: In the very latest versions, it's often just:
-  -- local parser_config = require("nvim-treesitter.parsers")
 
   -- To be safest across different nvim-treesitter versions:
   local parsers = require("nvim-treesitter.parsers")
